@@ -15,6 +15,148 @@ namespace Dota2Stats.Controllers
     using Middleware;
     public class itemController : ApiController
     {
+        // GET api/item?name=Tango
+        public IEnumerable<Item> GetItemsByName(string name)
+        {
+            var itemslist = new List<Item>();
+            try
+            {
+                NpgsqlHelper.Connection.Open();
+                using (var command = new NpgsqlCommand())
+                {
+                    command.Connection = NpgsqlHelper.Connection;
+                    command.Parameters.Add(new NpgsqlParameter("@name", name));
+                    command.CommandText = "SELECT * FROM item WHERE name = @name";
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            itemslist.Add(new Item
+                            {
+                                id = reader.GetInt32(0),
+                                name = reader.GetString(1),
+                                type = reader.GetString(2)
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            NpgsqlHelper.Connection.Close();
+            return itemslist;
+        }
+
+        // GET api/item?type=Move
+        public IEnumerable<Item> GetItemsByType(string type)
+        {
+            var itemslist = new List<Item>();
+            try
+            {
+                NpgsqlHelper.Connection.Open();
+                using (var command = new NpgsqlCommand())
+                {
+                    command.Connection = NpgsqlHelper.Connection;
+                    command.Parameters.Add(new NpgsqlParameter("@type", type));
+                    command.CommandText = "SELECT * FROM item WHERE type = @type";
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            itemslist.Add(new Item
+                            {
+                                id = reader.GetInt32(0),
+                                name = reader.GetString(1),
+                                type = reader.GetString(2)
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            NpgsqlHelper.Connection.Close();
+            return itemslist;
+        }
+
+        // GET api/item?id_match=1&id_player=1
+        public IEnumerable<Item> GetPlayerItemsInMatch(int id_match, int id_player)
+        {
+            var itemslist = new List<Item>();
+            try
+            {
+                NpgsqlHelper.Connection.Open();
+                using (var command = new NpgsqlCommand())
+                {
+                    command.Connection = NpgsqlHelper.Connection;
+                    command.Parameters.Add(new NpgsqlParameter("@id_match", id_match));
+                    command.Parameters.Add(new NpgsqlParameter("@id_player", id_player));
+                    command.CommandText = "SELECT item.id, item.name, item.type FROM item, itemtemp, maintemp " +
+                        "WHERE item.id = itemtemp.id_item AND itemtemp.id_maintemp = maintemp.id_hero AND maintemp.id_match = @id_match AND maintemp.id_player = @id_player";
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            itemslist.Add(new Item
+                            {
+                                id = reader.GetInt32(0),
+                                name = reader.GetString(1),
+                                type = reader.GetString(2)
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            NpgsqlHelper.Connection.Close();
+            return itemslist;
+        }
+
+
+
+        // GET api/item?id_match=1
+        public IEnumerable<Item> GetItemsInMatch(int id_match)
+        {
+            var itemslist = new List<Item>();
+            try
+            {
+                NpgsqlHelper.Connection.Open();
+                using (var command = new NpgsqlCommand())
+                {
+                    command.Connection = NpgsqlHelper.Connection;
+                    command.Parameters.Add(new NpgsqlParameter("@id_match", id_match));
+                    command.CommandText = "SELECT item.id, item.name, item.type FROM item, itemtemp, maintemp WHERE item.id = itemtemp.id_item AND itemtemp.id_maintemp = maintemp.id_hero AND maintemp.id_match = @id_match";
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            itemslist.Add(new Item
+                            {
+                                id = reader.GetInt32(0),
+                                name = reader.GetString(1),
+                                type = reader.GetString(2)
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            NpgsqlHelper.Connection.Close();
+            return itemslist;
+        }
+
+
+
         // GET api/item
         public IEnumerable<Item> Get()
         {

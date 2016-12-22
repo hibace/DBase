@@ -9,6 +9,6 @@ namespace Dota2Stats.Models
     {
         public int id { get; set; }
         public string nickname { get; set; }
-        public string number_of_games { get; set; }
+        public int number_of_games { get; set; }
     }
 }

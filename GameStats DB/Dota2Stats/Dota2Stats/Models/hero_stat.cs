@@ -13,5 +13,6 @@ namespace Dota2Stats.Models
         public int hero_damage { get; set; }
         public int hero_healing { get; set; }
         public int tower_damage { get; set; }
+        public int id_match { get; set;  }
     }
 }

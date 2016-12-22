@@ -14,6 +14,195 @@ namespace Dota2Stats.Controllers
     using Middleware;
     public class hero_statController : ApiController
     {
+        // GET api/hero_stat?id_match=1&id_hero=1
+        public IEnumerable<Hero_stat> GetHeroStatByHeroIDandMatchID(int id_match, int id_hero)
+        {
+            var hero_statlist = new List<Hero_stat>();
+            try
+            {
+                NpgsqlHelper.Connection.Open();
+                using (var command = new NpgsqlCommand())
+                {
+                    command.Connection = NpgsqlHelper.Connection;
+                    command.Parameters.Add(new NpgsqlParameter("@id_match", id_match));
+                    command.Parameters.Add(new NpgsqlParameter("@id_hero", id_hero));
+                    command.CommandText = "SELECT hero_stat.id_hero, hero_stat.hero_damage, hero_stat.hero_healing, hero_stat.tower_damage FROM maintemp, hero, hero_stat " +
+                                          "WHERE maintemp.id_hero = hero_stat.id_hero AND maintemp.id_match = @id_match AND hero_stat.id_hero = hero.id AND hero_stat.id_hero = @id_hero";
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            hero_statlist.Add(new Hero_stat
+                            {
+                                id = reader.GetInt32(0),
+                                id_hero = reader.GetInt32(1),
+                                hero_damage = reader.GetInt32(2),
+                                hero_healing = reader.GetInt32(3),
+                                tower_damage = reader.GetInt32(4),
+                                id_match = reader.GetInt32(5)
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            NpgsqlHelper.Connection.Close();
+            return hero_statlist;
+        }
+
+        // GET api/hero_stat?hero_healing_greater_than=555
+        public IEnumerable<Hero_stat> GetHeroStatByHeroHealing(int hero_healing_greater_than)
+        {
+            var hero_statlist = new List<Hero_stat>();
+            try
+            {
+                NpgsqlHelper.Connection.Open();
+                using (var command = new NpgsqlCommand())
+                {
+                    command.Connection = NpgsqlHelper.Connection;
+                    command.Parameters.Add(new NpgsqlParameter("@hero_healing_greater_than", hero_healing_greater_than));
+                    command.CommandText = "SELECT hero_stat.id_hero, hero_stat.hero_damage, hero_stat.hero_healing, hero_stat.tower_damage FROM maintemp, hero, hero_stat " +
+                                           "WHERE maintemp.id_hero = hero_stat.id_hero AND maintemp.id_match = @id_match AND hero_stat.id_hero = hero.id AND hero_stat.id_hero = @id_hero";
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            hero_statlist.Add(new Hero_stat
+                            {
+                                id = reader.GetInt32(0),
+                                id_hero = reader.GetInt32(1),
+                                hero_damage = reader.GetInt32(2),
+                                hero_healing = reader.GetInt32(3),
+                                tower_damage = reader.GetInt32(4),
+                                id_match = reader.GetInt32(5)
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            NpgsqlHelper.Connection.Close();
+            return hero_statlist;
+        }
+
+        // GET api/hero_stat?id_match=1
+        public IEnumerable<Hero_stat> GetHeroStatByMatchID(int id_match)
+        {
+            var hero_statlist = new List<Hero_stat>();
+            try
+            {
+                NpgsqlHelper.Connection.Open();
+                using (var command = new NpgsqlCommand())
+                {
+                    command.Connection = NpgsqlHelper.Connection;
+                    command.Parameters.Add(new NpgsqlParameter("@id_match", id_match));
+                    command.CommandText = "SELECT * FROM hero_stat WHERE id_match = @id_match";
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            hero_statlist.Add(new Hero_stat
+                            {
+                                id = reader.GetInt32(0),
+                                id_hero = reader.GetInt32(1),
+                                hero_damage = reader.GetInt32(2),
+                                hero_healing = reader.GetInt32(3),
+                                tower_damage = reader.GetInt32(4),
+                                id_match = reader.GetInt32(5)
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            NpgsqlHelper.Connection.Close();
+            return hero_statlist;
+        }
+
+
+        // GET api/hero_stat?hero_damage_greater_than=100
+        public IEnumerable<Hero_stat> GetHeroStatByHeroDamage(int hero_damage_greater_than)
+        {
+            var hero_statlist = new List<Hero_stat>();
+            try
+            {
+                NpgsqlHelper.Connection.Open();
+                using (var command = new NpgsqlCommand())
+                {
+                    command.Connection = NpgsqlHelper.Connection;
+                    command.Parameters.Add(new NpgsqlParameter("@hero_damage_greater_than", hero_damage_greater_than));
+                    command.CommandText = "SELECT * FROM hero_stat WHERE hero_damage > @hero_damage_greater_than";
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            hero_statlist.Add(new Hero_stat
+                            {
+                                id = reader.GetInt32(0),
+                                id_hero = reader.GetInt32(1),
+                                hero_damage = reader.GetInt32(2),
+                                hero_healing = reader.GetInt32(3),
+                                tower_damage = reader.GetInt32(4),
+                                id_match = reader.GetInt32(5)
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            NpgsqlHelper.Connection.Close();
+            return hero_statlist;
+        }
+
+        // GET api/hero_stat?hero_damage_greater_than=1000
+        public IEnumerable<Hero_stat> GetHeroStatByTowerDamage(int tower_damage_greater_than)
+        {
+            var hero_statlist = new List<Hero_stat>();
+            try
+            {
+                NpgsqlHelper.Connection.Open();
+                using (var command = new NpgsqlCommand())
+                {
+                    command.Connection = NpgsqlHelper.Connection;
+                    command.Parameters.Add(new NpgsqlParameter("@tower_damage_greater_than", tower_damage_greater_than));
+                    command.CommandText = "SELECT * FROM hero_stat WHERE tower_damage > @tower_damage_greater_than";
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            hero_statlist.Add(new Hero_stat
+                            {
+                                id = reader.GetInt32(0),
+                                id_hero = reader.GetInt32(1),
+                                hero_damage = reader.GetInt32(2),
+                                hero_healing = reader.GetInt32(3),
+                                tower_damage = reader.GetInt32(4),
+                                id_match = reader.GetInt32(5)
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            NpgsqlHelper.Connection.Close();
+            return hero_statlist;
+        }
+
         // GET api/hero_stat
         public IEnumerable<Hero_stat> Get()
         {
@@ -35,7 +224,8 @@ namespace Dota2Stats.Controllers
                                 id_hero = reader.GetInt32(1),
                                 hero_damage = reader.GetInt32(2),
                                 hero_healing = reader.GetInt32(3),
-                                tower_damage = reader.GetInt32(4)
+                                tower_damage = reader.GetInt32(4),
+                                id_match = reader.GetInt32(5)
                             });
                         }
                     }
@@ -75,7 +265,8 @@ namespace Dota2Stats.Controllers
                                 id_hero = reader.GetInt32(1),
                                 hero_damage = reader.GetInt32(2),
                                 hero_healing = reader.GetInt32(3),
-                                tower_damage = reader.GetInt32(4)
+                                tower_damage = reader.GetInt32(4),
+                                id_match = reader.GetInt32(5)
                             };
                         }
                     }
@@ -126,7 +317,8 @@ namespace Dota2Stats.Controllers
                                     id_hero = reader.GetInt32(1),
                                     hero_damage = reader.GetInt32(2),
                                     hero_healing = reader.GetInt32(3),
-                                    tower_damage = reader.GetInt32(4)
+                                    tower_damage = reader.GetInt32(4),
+                                    id_match = reader.GetInt32(5)
                                 };
                             }
                         }
@@ -182,7 +374,8 @@ namespace Dota2Stats.Controllers
                                     id_hero = reader.GetInt32(1),
                                     hero_damage = reader.GetInt32(2),
                                     hero_healing = reader.GetInt32(3),
-                                    tower_damage = reader.GetInt32(4)
+                                    tower_damage = reader.GetInt32(4),
+                                    id_match = reader.GetInt32(5)
                                 };
                             }
                         }

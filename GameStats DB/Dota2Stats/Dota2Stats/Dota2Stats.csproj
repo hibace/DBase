@@ -30,6 +30,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -165,7 +166,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\heroController.cs" />
-    <Compile Include="Controllers\herotempController.cs" />
+    <Compile Include="Controllers\old\herotempController.cs" />
     <Compile Include="Controllers\hero_statController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\itemController.cs" />
@@ -173,9 +174,9 @@
     <Compile Include="Controllers\item_statController.cs" />
     <Compile Include="Controllers\maintempController.cs" />
     <Compile Include="Controllers\matchController.cs" />
-    <Compile Include="Controllers\Matchtemp.cs" />
+    <Compile Include="Controllers\old\matchtemp.cs" />
     <Compile Include="Controllers\playerController.cs" />
-    <Compile Include="Controllers\playertempController.cs" />
+    <Compile Include="Controllers\old\playertempController.cs" />
     <Compile Include="Controllers\player_statController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">

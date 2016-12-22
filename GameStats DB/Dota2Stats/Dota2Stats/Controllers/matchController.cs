@@ -12,8 +12,153 @@ using Npgsql;
 namespace Dota2Stats.Controllers
 {
     using Middleware;
+
     public class matchController : ApiController
     {
+
+        // GET api/match?max_duration=15
+        public IEnumerable<Match> GetMatchesByDuration(int max_duration)
+        {
+            var matchlist = new List<Match>();
+            try
+            {
+                NpgsqlHelper.Connection.Open();
+                using (var command = new NpgsqlCommand())
+                {
+                    command.Connection = NpgsqlHelper.Connection;
+                    command.Parameters.Add(new NpgsqlParameter("@max_duration", max_duration));
+                    command.CommandText = "SELECT * FROM match WHERE duration <= @max_duration";
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            matchlist.Add(new Match
+                            {
+                                id = reader.GetInt32(0),
+                                duration = reader.GetInt32(1),
+                                game_mode = reader.GetString(2),
+                                date = reader.GetDateTime(3)
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            NpgsqlHelper.Connection.Close();
+            return matchlist;
+        }
+
+
+        // GET api/match?date1=2016-09-01&date2=2016-09-09
+        public IEnumerable<Match> GetMatchesByDateInterval(DateTime date1, DateTime date2)
+        {
+            var matchlist = new List<Match>();
+            try
+            {
+                NpgsqlHelper.Connection.Open();
+                using (var command = new NpgsqlCommand())
+                {
+                    command.Connection = NpgsqlHelper.Connection;
+                    command.Parameters.Add(new NpgsqlParameter("@date1", date1));
+                    command.Parameters.Add(new NpgsqlParameter("@date2", date2));
+                    command.CommandText = "SELECT * FROM match WHERE date BETWEEN @date1 AND @date2";
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            matchlist.Add(new Match
+                            {
+                                id = reader.GetInt32(0),
+                                duration = reader.GetInt32(1),
+                                game_mode = reader.GetString(2),
+                                date = reader.GetDateTime(3)
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            NpgsqlHelper.Connection.Close();
+            return matchlist;
+        }
+
+        // GET api/match?date=2016-09-01
+        public IEnumerable<Match> GetMatchesByDate(DateTime date)
+        {
+            var matchlist = new List<Match>();
+            try
+            {
+                NpgsqlHelper.Connection.Open();
+                using (var command = new NpgsqlCommand())
+                {
+                    command.Connection = NpgsqlHelper.Connection;
+                    command.Parameters.Add(new NpgsqlParameter("@date", date));
+                    command.CommandText = "SELECT * FROM match WHERE date = @date";
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            matchlist.Add(new Match
+                            {
+                                id = reader.GetInt32(0),
+                                duration = reader.GetInt32(1),
+                                game_mode = reader.GetString(2),
+                                date = reader.GetDateTime(3)
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            NpgsqlHelper.Connection.Close();
+            return matchlist;
+        }
+
+        // GET api/match?game_mode=All Pick
+        public IEnumerable<Match> GetMatchesByGameMode(string game_mode)
+        {
+            var matchlist = new List<Match>();
+            try
+            {
+                NpgsqlHelper.Connection.Open();
+                using (var command = new NpgsqlCommand())
+                {
+                    command.Connection = NpgsqlHelper.Connection;
+                    command.Parameters.Add(new NpgsqlParameter("@game_mode", game_mode));
+                    command.CommandText = "SELECT * FROM match WHERE game_mode = @game_mode";
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            matchlist.Add(new Match
+                            {
+                                id = reader.GetInt32(0),
+                                duration = reader.GetInt32(1),
+                                game_mode = reader.GetString(2),
+                                date = reader.GetDateTime(3)
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            NpgsqlHelper.Connection.Close();
+            return matchlist;
+        }
+
+
         // GET api/match
         public IEnumerable<Match> Get()
         {
@@ -33,8 +178,9 @@ namespace Dota2Stats.Controllers
                             {
                                 id = reader.GetInt32(0),
                                 duration = reader.GetInt32(1),
-                                date = reader.GetString(2),
-                                game_mode = reader.GetString(3)
+                                game_mode = reader.GetString(2),
+                                date = reader.GetDateTime(3)
+
                             });
                         }
                     }
@@ -72,8 +218,8 @@ namespace Dota2Stats.Controllers
                             {
                                 id = reader.GetInt32(0),
                                 duration = reader.GetInt32(1),
-                                date = reader.GetString(2),
-                                game_mode = reader.GetString(3)
+                                game_mode = reader.GetString(2),
+                                date = reader.GetDateTime(3)
                             };
                         }
                     }
@@ -121,8 +267,8 @@ namespace Dota2Stats.Controllers
                                 {
                                     id = reader.GetInt32(0),
                                     duration = reader.GetInt32(1),
-                                    date = reader.GetString(2),
-                                    game_mode = reader.GetString(3)
+                                    game_mode = reader.GetString(2),
+                                    date = reader.GetDateTime(3)
                                 };
                             }
                         }
@@ -175,8 +321,8 @@ namespace Dota2Stats.Controllers
                                 {
                                     id = reader.GetInt32(0),
                                     duration = reader.GetInt32(1),
-                                    date = reader.GetString(2),
-                                    game_mode = reader.GetString(3)
+                                    game_mode = reader.GetString(2),
+                                    date = reader.GetDateTime(3)
                                 };
                             }
                         }

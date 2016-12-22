@@ -13,7 +13,7 @@ using Npgsql;
 namespace Dota2Stats.Controllers
 {
     using Middleware;
-
+    
     public class itemtempController : ApiController
     {
         // GET api/itemtemp

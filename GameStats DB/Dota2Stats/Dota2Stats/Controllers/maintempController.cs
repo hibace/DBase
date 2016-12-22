@@ -35,8 +35,7 @@ namespace Dota2Stats.Controllers
                                 id = reader.GetInt32(0),
                                 id_player = reader.GetInt32(1),
                                 id_hero = reader.GetInt32(2),
-                                id_match = reader.GetInt32(3),
-                                id_item = reader.GetInt32(4)
+                                id_match = reader.GetInt32(3)
                             });
                         }
                     }
@@ -76,8 +75,7 @@ namespace Dota2Stats.Controllers
                                 id = reader.GetInt32(0),
                                 id_player = reader.GetInt32(1),
                                 id_hero = reader.GetInt32(2),
-                                id_match = reader.GetInt32(3),
-                                id_item = reader.GetInt32(4)
+                                id_match = reader.GetInt32(3)
                             };
                         }
                     }
@@ -126,8 +124,7 @@ namespace Dota2Stats.Controllers
                                     id = reader.GetInt32(0),
                                     id_player = reader.GetInt32(1),
                                     id_hero = reader.GetInt32(2),
-                                    id_match = reader.GetInt32(3),
-                                    id_item = reader.GetInt32(4)
+                                    id_match = reader.GetInt32(3)
                                 };
                             }
                         }
@@ -181,8 +178,7 @@ namespace Dota2Stats.Controllers
                                     id = reader.GetInt32(0),
                                     id_player = reader.GetInt32(1),
                                     id_hero = reader.GetInt32(2),
-                                    id_match = reader.GetInt32(3),
-                                    id_item = reader.GetInt32(4)
+                                    id_match = reader.GetInt32(3)
                                 };
                             }
                         }

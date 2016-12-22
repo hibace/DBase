@@ -15,6 +15,146 @@ namespace Dota2Stats.Controllers
 
     public class heroController : ApiController
     {
+        // Get api/hero?id_match=1
+        public IEnumerable<Hero> GetHeroes(int id_match)
+        {
+            var herolist = new List<Hero>();
+            try
+            {
+                NpgsqlHelper.Connection.Open();
+                using (var command = new NpgsqlCommand())
+                {
+                    command.Connection = NpgsqlHelper.Connection;
+                    command.Parameters.Add(new NpgsqlParameter("@id_match", id_match));
+                    command.CommandText = "SELECT hero.id, hero.name, hero.class, hero.role FROM hero, maintemp WHERE hero.id = maintemp.id_hero AND maintemp.id_match = @id_match";
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            herolist.Add(new Hero
+                            {
+                                id = reader.GetInt32(0),
+                                name = reader.GetString(1),
+                                hero_class = reader.GetString(2),
+                                role = reader.GetString(3)
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            NpgsqlHelper.Connection.Close();
+            return herolist;
+        }
+
+        // Get api/hero?name=Pudge
+        public IEnumerable<Hero> GetHeroByName(string name)
+        {
+            var herolist = new List<Hero>();
+            try
+            {
+                NpgsqlHelper.Connection.Open();
+                using (var command = new NpgsqlCommand())
+                {
+                    command.Connection = NpgsqlHelper.Connection;
+                    command.Parameters.Add(new NpgsqlParameter("@name", name));
+                    command.CommandText = "SELECT * FROM hero WHERE name = @name";
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            herolist.Add(new Hero
+                            {
+                                id = reader.GetInt32(0),
+                                name = reader.GetString(1),
+                                hero_class = reader.GetString(2),
+                                role = reader.GetString(3)
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            NpgsqlHelper.Connection.Close();
+            return herolist;
+        }
+
+        // Get api/hero?hero_class=Agility
+        public IEnumerable<Hero> GetHeroByClass(string hero_class)
+        {
+            var herolist = new List<Hero>();
+            try
+            {
+                NpgsqlHelper.Connection.Open();
+                using (var command = new NpgsqlCommand())
+                {
+                    command.Connection = NpgsqlHelper.Connection;
+                    command.Parameters.Add(new NpgsqlParameter("@hero_class", hero_class));
+                    command.CommandText = "SELECT * FROM hero WHERE class = @hero_class";
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            herolist.Add(new Hero
+                            {
+                                id = reader.GetInt32(0),
+                                name = reader.GetString(1),
+                                hero_class = reader.GetString(2),
+                                role = reader.GetString(3)
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            NpgsqlHelper.Connection.Close();
+            return herolist;
+        }
+
+        // Get api/hero?hero_class=Initiator
+        public IEnumerable<Hero> GetHeroByRole(string role)
+        {
+            var herolist = new List<Hero>();
+            try
+            {
+                NpgsqlHelper.Connection.Open();
+                using (var command = new NpgsqlCommand())
+                {
+                    command.Connection = NpgsqlHelper.Connection;
+                    command.Parameters.Add(new NpgsqlParameter("@role", role));
+                    command.CommandText = "SELECT * FROM hero WHERE role = @role";
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            herolist.Add(new Hero
+                            {
+                                id = reader.GetInt32(0),
+                                name = reader.GetString(1),
+                                hero_class = reader.GetString(2),
+                                role = reader.GetString(3)
+                            });
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+            NpgsqlHelper.Connection.Close();
+            return herolist;
+        }
+
         //// GET api/hero
         public IEnumerable<Hero> Get()
         {

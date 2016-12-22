@@ -15,6 +15,44 @@ namespace Dota2Stats.Controllers
     using Middleware;
     public class item_statController : ApiController
     {
+        // GET api/item_stat?time_used_less_than=10
+        public IEnumerable<Item_stat> GetByTimeUsed(int time_used_less_than)
+        {
+            var item_stat = new List<Item_stat>();
+            NpgsqlHelper.Connection.Open();
+            using (NpgsqlCommand cmd = new NpgsqlCommand())
+            {
+                cmd.Connection = NpgsqlHelper.Connection;
+                cmd.Parameters.Add(new NpgsqlParameter("@time_used_less_than", time_used_less_than));
+                cmd.CommandText = "SELECT * FROM item_stat WHERE time_used < @time_used_less_than";
+                try
+                {
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            item_stat.Add(new Item_stat
+                            {
+                                id = reader.GetInt32(0),
+                                id_item = reader.GetInt32(1),
+                                time_used = reader.GetInt32(2)
+                            });
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ex.ToString();
+                }
+                cmd.CommandType = CommandType.Text;
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+                NpgsqlHelper.Connection.Close();
+            }
+            NpgsqlHelper.Connection.Close();
+            return item_stat;
+        }
+
         // GET api/item_stat
         public IEnumerable<Item_stat> Get()
         {

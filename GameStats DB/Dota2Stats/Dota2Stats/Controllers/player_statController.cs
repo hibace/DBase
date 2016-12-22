@@ -13,6 +13,126 @@ namespace Dota2Stats.Controllers
     using Middleware;
     public class player_statController : ApiController
     {
+        // GET api/player_stat?time_spent_playing_greater_than=5000
+        public IEnumerable<Player_stat> GetByStatByTime(int time_spent_playing_greater_than)
+        {
+            var player_stat = new List<Player_stat>();
+            NpgsqlHelper.Connection.Open();
+            using (NpgsqlCommand cmd = new NpgsqlCommand())
+            {
+                cmd.Connection = NpgsqlHelper.Connection;
+                cmd.Parameters.Add(new NpgsqlParameter("@time_spent_playing_greater_than", time_spent_playing_greater_than));
+                cmd.CommandText = "SELECT * FROM player_stat WHERE time_spent_playing >= @time_spent_playing_greater_than";
+                try
+                {
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            player_stat.Add(new Player_stat
+                            {
+                                id = reader.GetInt32(3),
+                                id_player = reader.GetInt32(4),
+                                verified = reader.GetBoolean(0),
+                                time_spent_playing = reader.GetInt32(1),
+                                most_matches_played = reader.GetInt32(2)
+                            });
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ex.ToString();
+                }
+                cmd.CommandType = CommandType.Text;
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+                NpgsqlHelper.Connection.Close();
+            }
+            NpgsqlHelper.Connection.Close();
+            return player_stat;
+        }
+
+        // GET api/player_stat?most_matches_played_less_than=100
+        public IEnumerable<Player_stat> GetByStatByMostMatchPlayed(int most_matches_played_less_than)
+        {
+            var player_stat = new List<Player_stat>();
+            NpgsqlHelper.Connection.Open();
+            using (NpgsqlCommand cmd = new NpgsqlCommand())
+            {
+                cmd.Connection = NpgsqlHelper.Connection;
+                cmd.Parameters.Add(new NpgsqlParameter("@most_matches_played_less_than", most_matches_played_less_than));
+                cmd.CommandText = "SELECT * FROM player_stat WHERE most_matches_played <= @most_matches_played_less_than";
+                try
+                {
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            player_stat.Add(new Player_stat
+                            {
+                                id = reader.GetInt32(3),
+                                id_player = reader.GetInt32(4),
+                                verified = reader.GetBoolean(0),
+                                time_spent_playing = reader.GetInt32(1),
+                                most_matches_played = reader.GetInt32(2)
+                            });
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ex.ToString();
+                }
+                cmd.CommandType = CommandType.Text;
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+                NpgsqlHelper.Connection.Close();
+            }
+            NpgsqlHelper.Connection.Close();
+            return player_stat;
+        }
+
+        // GET api/player_stat?verified=true
+        public IEnumerable<Player_stat> GetPlayersByVerification(bool verified)
+        {
+            var player_stat = new List<Player_stat>();
+            NpgsqlHelper.Connection.Open();
+            using (NpgsqlCommand cmd = new NpgsqlCommand())
+            {
+                cmd.Connection = NpgsqlHelper.Connection;
+                cmd.Parameters.Add(new NpgsqlParameter("@verified", verified));
+                cmd.CommandText = "SELECT * FROM player_stat WHERE verified = @verified";
+                try
+                {
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            player_stat.Add(new Player_stat
+                            {
+                                id = reader.GetInt32(3),
+                                id_player = reader.GetInt32(4),
+                                verified = reader.GetBoolean(0),
+                                time_spent_playing = reader.GetInt32(1),
+                                most_matches_played = reader.GetInt32(2)
+                            });
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ex.ToString();
+                }
+                cmd.CommandType = CommandType.Text;
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+                NpgsqlHelper.Connection.Close();
+            }
+            NpgsqlHelper.Connection.Close();
+            return player_stat;
+        }
+
         // GET api/player_stat
         public IEnumerable<Player_stat> Get()
         {
@@ -30,11 +150,11 @@ namespace Dota2Stats.Controllers
                         {
                             player_stat.Add(new Player_stat
                             {
-                                id = reader.GetInt32(0),
-                                id_player = reader.GetInt32(1),
-                                verified = reader.GetBoolean(2),
-                                time_spent_playing = reader.GetInt32(3),
-                                most_matches_played = reader.GetInt32(4)
+                                id = reader.GetInt32(3),
+                                id_player = reader.GetInt32(4),
+                                verified = reader.GetBoolean(0),
+                                time_spent_playing = reader.GetInt32(1),
+                                most_matches_played = reader.GetInt32(2)
                             });
                         }
                     }
@@ -70,11 +190,11 @@ namespace Dota2Stats.Controllers
                         {
                             player_stat = new Player_stat
                             {
-                                id = reader.GetInt32(0),
-                                id_player = reader.GetInt32(1),
-                                verified = reader.GetBoolean(2),
-                                time_spent_playing = reader.GetInt32(3),
-                                most_matches_played = reader.GetInt32(4)
+                                id = reader.GetInt32(3),
+                                id_player = reader.GetInt32(4),
+                                verified = reader.GetBoolean(0),
+                                time_spent_playing = reader.GetInt32(1),
+                                most_matches_played = reader.GetInt32(2)
                             };
                         }
                     }
@@ -122,11 +242,11 @@ namespace Dota2Stats.Controllers
                             {
                                 insertedPlayer_stat = new Player_stat
                                 {
-                                    id = reader.GetInt32(0),
-                                    id_player = reader.GetInt32(1),
-                                    verified = reader.GetBoolean(2),
-                                    time_spent_playing = reader.GetInt32(3),
-                                    most_matches_played = reader.GetInt32(4)
+                                    id = reader.GetInt32(3),
+                                    id_player = reader.GetInt32(4),
+                                    verified = reader.GetBoolean(0),
+                                    time_spent_playing = reader.GetInt32(1),
+                                    most_matches_played = reader.GetInt32(2)
                                 };
                             }
                         }
@@ -178,11 +298,11 @@ namespace Dota2Stats.Controllers
                             {
                                 updatedPlayer_stat = new Player_stat
                                 {
-                                    id = reader.GetInt32(0),
-                                    id_player = reader.GetInt32(1),
-                                    verified = reader.GetBoolean(2),
-                                    time_spent_playing = reader.GetInt32(3),
-                                    most_matches_played = reader.GetInt32(4)
+                                    id = reader.GetInt32(3),
+                                    id_player = reader.GetInt32(4),
+                                    verified = reader.GetBoolean(0),
+                                    time_spent_playing = reader.GetInt32(1),
+                                    most_matches_played = reader.GetInt32(2)
                                 };
                             }
                         }

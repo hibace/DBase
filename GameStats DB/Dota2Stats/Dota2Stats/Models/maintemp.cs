@@ -11,6 +11,5 @@ namespace Dota2Stats.Models
         public int id_player { get; set; }
         public int id_hero  { get; set; }
         public int id_match  { get; set; }
-        public int id_item { get; set; }
     }
 }
