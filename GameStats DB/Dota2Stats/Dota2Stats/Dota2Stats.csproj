@@ -41,7 +41,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentNHibernate, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentNHibernate.2.0.3.0\lib\net40\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="NHibernate, Version=4.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHibernate.4.1.1.4000\lib\net40\NHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="Npgsql">
       <HintPath>..\..\..\..\..\Desktop\Npgsql2.0.11.91-bin-ms.net3.5sp1\Npgsql2.0.11.91-bin-ms.net3.5sp1\Npgsql.dll</HintPath>
     </Reference>
@@ -165,37 +174,41 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Controllers\heroController.cs" />
-    <Compile Include="Controllers\old\herotempController.cs" />
-    <Compile Include="Controllers\hero_statController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\itemController.cs" />
-    <Compile Include="Controllers\itemtempController.cs" />
-    <Compile Include="Controllers\item_statController.cs" />
-    <Compile Include="Controllers\maintempController.cs" />
-    <Compile Include="Controllers\matchController.cs" />
-    <Compile Include="Controllers\old\matchtemp.cs" />
-    <Compile Include="Controllers\playerController.cs" />
-    <Compile Include="Controllers\old\playertempController.cs" />
-    <Compile Include="Controllers\player_statController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\HeroController.cs" />
+    <Compile Include="Controllers\old\hero_statController.cs" />
+    <Compile Include="Controllers\old\HomeController.cs" />
+    <Compile Include="Controllers\old\itemController.cs" />
+    <Compile Include="Controllers\old\itemtempController.cs" />
+    <Compile Include="Controllers\old\item_statController.cs" />
+    <Compile Include="Controllers\old\maintempController.cs" />
+    <Compile Include="Controllers\old\matchController.cs" />
+    <Compile Include="Controllers\old\playerController.cs" />
+    <Compile Include="Controllers\old\player_statController.cs" />
+    <Compile Include="Controllers\old\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Maps\BaseMap.cs" />
+    <Compile Include="Maps\HeroMap.cs" />
+    <Compile Include="Middleware\NHibernateHelper.cs" />
     <Compile Include="Middleware\NpgsqlHelper.cs" />
-    <Compile Include="Models\hero.cs" />
-    <Compile Include="Models\herotemp.cs" />
-    <Compile Include="Models\hero_stat.cs" />
-    <Compile Include="Models\item.cs" />
-    <Compile Include="Models\itemtemp.cs" />
-    <Compile Include="Models\item_stat.cs" />
-    <Compile Include="Models\maintemp.cs" />
-    <Compile Include="Models\match.cs" />
-    <Compile Include="Models\matchtemp.cs" />
-    <Compile Include="Models\player.cs" />
-    <Compile Include="Models\playertemp.cs" />
-    <Compile Include="Models\player_stat.cs" />
+    <Compile Include="Models\oldone\herotemp.cs" />
+    <Compile Include="Models\oldone\hero_stat.cs" />
+    <Compile Include="Models\oldone\item.cs" />
+    <Compile Include="Models\oldone\itemtemp.cs" />
+    <Compile Include="Models\oldone\item_stat.cs" />
+    <Compile Include="Models\oldone\maintemp.cs" />
+    <Compile Include="Models\oldone\match.cs" />
+    <Compile Include="Models\oldone\matchtemp.cs" />
+    <Compile Include="Models\Model.cs" />
+    <Compile Include="Models\oldone\player.cs" />
+    <Compile Include="Models\oldone\playertemp.cs" />
+    <Compile Include="Models\oldone\player_stat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\Hero\HeroRepository.cs" />
+    <Compile Include="Repositories\Hero\IHeroRepository.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Resources\HeroResource.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -266,6 +279,10 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\HelpPageApiModel.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
+    <None Include="Dockerfile" />
+    <None Include=".dockerignore">
+      <DependentUpon>Dockerfile</DependentUpon>
+    </None>
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />

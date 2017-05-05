@@ -1,0 +1,8 @@
+version: '2.1'
+
+services:
+  dota2stats:
+    image: dota2stats
+    build:
+      context: .\Dota2Stats
+      dockerfile: Dockerfile

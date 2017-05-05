@@ -8,7 +8,7 @@ namespace Dota2Stats.Middleware
 {
     public class NpgsqlHelper
     {
-        const string connectionString = "Host=localhost;Port=5432;Username=postgres;Password=213;Database=Dota2Stats";
+        const string connectionString = "Host=localhost;Port=5433;Username=postgres;Password=213;Database=Dota2Stats";
         public static NpgsqlConnection Connection { get; private set; }
 
         static NpgsqlHelper()
