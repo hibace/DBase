@@ -10,7 +10,7 @@ namespace Dota2Stats.Repositories.Hero
     interface IHeroRepository : IRepository<Hero>
     {
         IEnumerable<Hero> GetHeroByName(string name);
-        IEnumerable<Hero> GetHeroByClass(string hero_class);
+        IEnumerable<Hero> GetHeroByClass(string heroClass);
         IEnumerable<Hero> GetHeroByRole(string role);
     }
 }

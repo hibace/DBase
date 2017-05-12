@@ -5,32 +5,32 @@ using System.Web;
 using NHibernate.Linq;
 using NHibernate.Transaction;
 
-namespace Dota2Stats.Repositories.Hero
+namespace Dota2Stats.Repositories.ItemStat
 {
     using Models;
     using Dota2Stats.Middleware;
     using Npgsql;
 
 
-    public class HeroRepository : IHeroRepository
+    public class ItemStatRepository : IItemStatRepository
     {
-        public IEnumerable<Hero> GetAll()
+        public IEnumerable<ItemStat> GetAll()
         {
             using (var session = NHibernateHelper.OpenSession())
             {
-                return session.Query<Hero>().ToList();
+                return session.Query<ItemStat>().ToList();
             }
         }
 
-        public Hero Get(int id)
+        public ItemStat Get(int id)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
-                return session.Query<Hero>().Where(x => x.Id == id).SingleOrDefault();
+                return session.Query<ItemStat>().Where(x => x.Id == id).SingleOrDefault();
             }
         }
 
-        public Hero Insert(Hero model)
+        public ItemStat Insert(ItemStat model)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
@@ -44,7 +44,7 @@ namespace Dota2Stats.Repositories.Hero
             return model;
         }
 
-        public Hero Update(int id, Hero model)
+        public ItemStat Update(int id, ItemStat model)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
@@ -64,35 +64,27 @@ namespace Dota2Stats.Repositories.Hero
             {
                 using (NHibernate.ITransaction transaction = session.BeginTransaction())
                 {
-                    Hero hero = session.Query<Hero>().Where(x => x.Id == id).SingleOrDefault();
-                    session.Delete(hero);
+                    ItemStat itemStat = session.Query<ItemStat>().Where(x => x.Id == id).SingleOrDefault();
+                    session.Delete(itemStat);
                     transaction.Commit();
                     return true;
                 }
             }
         }
 
-        public IEnumerable<Hero> GetHeroByName(string name)
+        public IEnumerable<ItemStat> GetItemStatByTimeUsed(int timeUsed)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
-                return session.Query<Hero>().Where(x => x.Name == name).ToList();
+                return session.Query<ItemStat>().Where(x => x.TimeUsed == timeUsed).ToList();
             }
         }
 
-        public IEnumerable<Hero> GetHeroByClass(string heroClass)
+        public IEnumerable<ItemStat> GetItemStatByIdItem(int idItem)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
-                return session.Query<Hero>().Where(x => x.HeroClass == heroClass).ToList();
-            }
-        }
-
-        public IEnumerable<Hero> GetHeroByRole(string role)
-        {
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                return session.Query<Hero>().Where(x => x.Role == role).ToList();
+                return session.Query<ItemStat>().Where(x => x.Item.Id == idItem).ToList();
             }
         }
     }

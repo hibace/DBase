@@ -6,31 +6,28 @@ using Dota2Stats.Models;
 
 namespace Dota2Stats.Resources
 {
-    public class HeroResource
+    public class ItemResource
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string HeroClass { get; set; }
-        public string Role { get; set; }
+        public string Type { get; set; }
 
-        public HeroResource() { }
+        public ItemResource() { }
 
-        public HeroResource(Hero model)
+        public ItemResource(Item model)
         {
             Id = model.Id;
             Name = model.Name;
-            HeroClass = model.HeroClass;
-            Role = model.Role;
+            Type = model.Type;
         }
 
-        public Hero ToModel()
+        public Item ToModel()
         {
-            return new Hero
+            return new Item
             {
                 Id = Id,
                 Name = Name,
-                HeroClass = HeroClass,
-                Role = Role
+                Type = Type
             };
         }
     }

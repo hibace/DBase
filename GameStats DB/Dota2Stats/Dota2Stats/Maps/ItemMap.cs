@@ -8,13 +8,12 @@ namespace Dota2Stats.Maps
     using FluentNHibernate.Mapping;
     using Models;
 
-    public class HeroMap : BaseMap<Hero>
+    public class ItemMap : BaseMap<Item>
     {
-        protected HeroMap() : base("hero", "id")
+        protected ItemMap() : base("item", "id")
         {
             Map(x => x.Name, "name");
-            Map(x => x.HeroClass, "hero_class");
-            Map(x => x.Role, "role");
+            Map(x => x.Type, "type");
         }
     }
 }

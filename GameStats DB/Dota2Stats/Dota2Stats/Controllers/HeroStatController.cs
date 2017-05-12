@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Dota2Stats.Models;
-using Dota2Stats.Repositories.Hero;
+using Dota2Stats.Repositories.HeroStat;
 using Dota2Stats.Resources;
 
 namespace Dota2Stats.Controllers
@@ -15,20 +15,20 @@ namespace Dota2Stats.Controllers
     using Npgsql;
     using NpgsqlTypes;
 
-    public class HeroController : ApiController
+    public class HeroStatController : ApiController
     {
-        HeroRepository heroRepository = new HeroRepository();
+        HeroStatRepository heroStatRepository = new HeroStatRepository();
 
-        // GET: api/Hero
+        // GET: api/HeroStat
         public HttpResponseMessage Get()
         {
-            List<Hero> items;
+            List<HeroStat> items;
             try
             {
-                items = heroRepository.GetAll().ToList();
+                items = heroStatRepository.GetAll().ToList();
                 for (int i = 0; i < items.Count; i++)
                 {
-                    items[i] = new HeroResource(items[i]).ToModel();
+                    items[i] = new HeroStatResource(items[i]).ToModel();
                 }
             }
             catch (Exception e)
@@ -39,15 +39,15 @@ namespace Dota2Stats.Controllers
             {
                 NpgsqlHelper.Connection.Close();
             }
-            return Request.CreateResponse<IEnumerable<Hero>>(HttpStatusCode.OK, items);
+            return Request.CreateResponse<IEnumerable<HeroStat>>(HttpStatusCode.OK, items);
         }
 
         public HttpResponseMessage Get(int id)
         {
-            Hero item;
+            HeroStat item;
             try
             {
-                item = new HeroResource(heroRepository.Get(id)).ToModel();
+                item = new HeroStatResource(heroStatRepository.Get(id)).ToModel();
             }
             catch (Exception e)
             {
@@ -57,15 +57,15 @@ namespace Dota2Stats.Controllers
             {
                 NpgsqlHelper.Connection.Close();
             }
-            return Request.CreateResponse<Hero>(HttpStatusCode.OK, item);
+            return Request.CreateResponse<HeroStat>(HttpStatusCode.OK, item);
         }
 
-        //POST api/hero
-        public HttpResponseMessage Post([FromBody]HeroResource value)
+        //POST api/HeroStat
+        public HttpResponseMessage Post([FromBody]HeroStatResource value)
         {
             try
             {
-                value = new HeroResource(heroRepository.Insert(value.ToModel()));
+                value = new HeroStatResource(heroStatRepository.Insert(value.ToModel()));
             }
             catch (Exception e)
             {
@@ -75,15 +75,15 @@ namespace Dota2Stats.Controllers
             {
                 NpgsqlHelper.Connection.Close();
             }
-            return Request.CreateResponse<HeroResource>(HttpStatusCode.OK, value);
+            return Request.CreateResponse<HeroStatResource>(HttpStatusCode.OK, value);
         }
 
-        //PUT api/hero/5
-        public HttpResponseMessage Put(int id, [FromBody]HeroResource value)
+        //PUT api/HeroStat/5
+        public HttpResponseMessage Put(int id, [FromBody]HeroStatResource value)
         {
             try
             {
-                value = new HeroResource(heroRepository.Update(id, value.ToModel()));
+                value = new HeroStatResource(heroStatRepository.Update(id, value.ToModel()));
             }
             catch (Exception e)
             {
@@ -93,15 +93,15 @@ namespace Dota2Stats.Controllers
             {
                 NpgsqlHelper.Connection.Close();
             }
-            return Request.CreateResponse<HeroResource>(HttpStatusCode.OK, value);
+            return Request.CreateResponse<HeroStatResource>(HttpStatusCode.OK, value);
         }
 
-        // DELETE api/hero/5
+        // DELETE api/HeroStat/5
         public HttpResponseMessage Delete(int id)
         {
             try
             {
-                heroRepository.Delete(id);
+                heroStatRepository.Delete(id);
             }
             catch (Exception e)
             {
@@ -118,16 +118,16 @@ namespace Dota2Stats.Controllers
         /// ////
         /// </summary>
 
-        // Get api/hero?name=Pudge
-        public HttpResponseMessage GetHeroByName(string name)
+        // Get api/HeroStat?heroDamage=100
+        public HttpResponseMessage GetHeroStatByHeroDamage(int heroDamage)
         {
-            List<Hero> items;
+            List<HeroStat> items;
             try
             {
-                items = heroRepository.GetHeroByName(name).ToList();
+                items = heroStatRepository.GetHeroStatByHeroDamage(heroDamage).ToList();
                 for (int i = 0; i < items.Count; i++)
                 {
-                    items[i] = new HeroResource(items[i]).ToModel();
+                    items[i] = new HeroStatResource(items[i]).ToModel();
                 }
             }
             catch (Exception e)
@@ -138,19 +138,19 @@ namespace Dota2Stats.Controllers
             {
                 NpgsqlHelper.Connection.Close();
             }
-            return Request.CreateResponse<List<Hero>>(HttpStatusCode.OK, items);
+            return Request.CreateResponse<List<HeroStat>>(HttpStatusCode.OK, items);
         }
 
-        // Get api/hero?hero_class=Agility
-        public HttpResponseMessage GetHeroByClass(string hero_class)
+        // Get api/hero?heroHealing=100
+        public HttpResponseMessage GetHeroStatByHeroHealing(int heroHealing)
         {
-            List<Hero> items;
+            List<HeroStat> items;
             try
             {
-                items = heroRepository.GetHeroByClass(hero_class).ToList();
+                items = heroStatRepository.GetHeroStatByHeroHealing(heroHealing).ToList();
                 for (int i = 0; i < items.Count; i++)
                 {
-                    items[i] = new HeroResource(items[i]).ToModel();
+                    items[i] = new HeroStatResource(items[i]).ToModel();
                 }
             }
             catch (Exception e)
@@ -161,19 +161,19 @@ namespace Dota2Stats.Controllers
             {
                 NpgsqlHelper.Connection.Close();
             }
-            return Request.CreateResponse<List<Hero>>(HttpStatusCode.OK, items);
+            return Request.CreateResponse<List<HeroStat>>(HttpStatusCode.OK, items);
         }
 
-        // Get api/hero?hero_class=Initiator
-        public HttpResponseMessage GetHeroByRole(string role)
+        // Get api/hero?towerDamage=500
+        public HttpResponseMessage GetHeroStatByTowerDamage(int towerDamage)
         {
-            List<Hero> items;
+            List<HeroStat> items;
             try
             {
-                items = heroRepository.GetHeroByRole(role).ToList();
+                items = heroStatRepository.GetHeroStatByTowerDamage(towerDamage).ToList();
                 for (int i = 0; i < items.Count; i++)
                 {
-                    items[i] = new HeroResource(items[i]).ToModel();
+                    items[i] = new HeroStatResource(items[i]).ToModel();
                 }
             }
             catch (Exception e)
@@ -184,7 +184,7 @@ namespace Dota2Stats.Controllers
             {
                 NpgsqlHelper.Connection.Close();
             }
-            return Request.CreateResponse<List<Hero>>(HttpStatusCode.OK, items);
+            return Request.CreateResponse<List<HeroStat>>(HttpStatusCode.OK, items);
         }
     }
 }

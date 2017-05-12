@@ -5,32 +5,32 @@ using System.Web;
 using NHibernate.Linq;
 using NHibernate.Transaction;
 
-namespace Dota2Stats.Repositories.Hero
+namespace Dota2Stats.Repositories.HeroStat
 {
     using Models;
     using Dota2Stats.Middleware;
     using Npgsql;
 
 
-    public class HeroRepository : IHeroRepository
+    public class HeroStatRepository : IHeroStatRepository
     {
-        public IEnumerable<Hero> GetAll()
+        public IEnumerable<HeroStat> GetAll()
         {
             using (var session = NHibernateHelper.OpenSession())
             {
-                return session.Query<Hero>().ToList();
+                return session.Query<HeroStat>().ToList();
             }
         }
 
-        public Hero Get(int id)
+        public HeroStat Get(int id)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
-                return session.Query<Hero>().Where(x => x.Id == id).SingleOrDefault();
+                return session.Query<HeroStat>().Where(x => x.Id == id).SingleOrDefault();
             }
         }
 
-        public Hero Insert(Hero model)
+        public HeroStat Insert(HeroStat model)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
@@ -44,7 +44,7 @@ namespace Dota2Stats.Repositories.Hero
             return model;
         }
 
-        public Hero Update(int id, Hero model)
+        public HeroStat Update(int id, HeroStat model)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
@@ -64,35 +64,51 @@ namespace Dota2Stats.Repositories.Hero
             {
                 using (NHibernate.ITransaction transaction = session.BeginTransaction())
                 {
-                    Hero hero = session.Query<Hero>().Where(x => x.Id == id).SingleOrDefault();
-                    session.Delete(hero);
+                    HeroStat heroStat = session.Query<HeroStat>().Where(x => x.Id == id).SingleOrDefault();
+                    session.Delete(heroStat);
                     transaction.Commit();
                     return true;
                 }
             }
         }
-
-        public IEnumerable<Hero> GetHeroByName(string name)
+        
+        public IEnumerable<HeroStat> GetHeroStatByHeroDamage(int heroDamage)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
-                return session.Query<Hero>().Where(x => x.Name == name).ToList();
+                return session.Query<HeroStat>().Where(x => x.HeroDamage >= heroDamage).ToList();
             }
         }
 
-        public IEnumerable<Hero> GetHeroByClass(string heroClass)
+        public IEnumerable<HeroStat> GetHeroStatByHeroHealing(int heroHealing)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
-                return session.Query<Hero>().Where(x => x.HeroClass == heroClass).ToList();
+                return session.Query<HeroStat>().Where(x => x.HeroHealing >= heroHealing).ToList();
             }
         }
 
-        public IEnumerable<Hero> GetHeroByRole(string role)
+        public IEnumerable<HeroStat> GetHeroStatByTowerDamage(int towerDamage)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
-                return session.Query<Hero>().Where(x => x.Role == role).ToList();
+                return session.Query<HeroStat>().Where(x => x.TowerDamage >= towerDamage).ToList();
+            }
+        }
+
+        public IEnumerable<HeroStat> GetHeroStatByIdHero(int idHero)
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                return session.Query<HeroStat>().Where(x => x.Hero.Id == idHero).ToList();
+            }
+        }
+
+        public IEnumerable<HeroStat> GetHeroStatByIdMatch(int idMatch)
+        {
+            using (var session = NHibernateHelper.OpenSession())
+            {
+                return session.Query<HeroStat>().Where(x => x.Match.Id == idMatch).ToList();
             }
         }
     }

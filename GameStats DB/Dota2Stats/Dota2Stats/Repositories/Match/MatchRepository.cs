@@ -5,32 +5,32 @@ using System.Web;
 using NHibernate.Linq;
 using NHibernate.Transaction;
 
-namespace Dota2Stats.Repositories.Hero
+namespace Dota2Stats.Repositories.Match
 {
     using Models;
     using Dota2Stats.Middleware;
     using Npgsql;
 
 
-    public class HeroRepository : IHeroRepository
+    public class MatchRepository : IMatchRepository
     {
-        public IEnumerable<Hero> GetAll()
+        public IEnumerable<Match> GetAll()
         {
             using (var session = NHibernateHelper.OpenSession())
             {
-                return session.Query<Hero>().ToList();
+                return session.Query<Match>().ToList();
             }
         }
 
-        public Hero Get(int id)
+        public Match Get(int id)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
-                return session.Query<Hero>().Where(x => x.Id == id).SingleOrDefault();
+                return session.Query<Match>().Where(x => x.Id == id).SingleOrDefault();
             }
         }
 
-        public Hero Insert(Hero model)
+        public Match Insert(Match model)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
@@ -44,7 +44,7 @@ namespace Dota2Stats.Repositories.Hero
             return model;
         }
 
-        public Hero Update(int id, Hero model)
+        public Match Update(int id, Match model)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
@@ -64,35 +64,35 @@ namespace Dota2Stats.Repositories.Hero
             {
                 using (NHibernate.ITransaction transaction = session.BeginTransaction())
                 {
-                    Hero hero = session.Query<Hero>().Where(x => x.Id == id).SingleOrDefault();
-                    session.Delete(hero);
+                    Match match = session.Query<Match>().Where(x => x.Id == id).SingleOrDefault();
+                    session.Delete(match);
                     transaction.Commit();
                     return true;
                 }
             }
         }
 
-        public IEnumerable<Hero> GetHeroByName(string name)
+        public IEnumerable<Match> GetMatchByDuration(int duration)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
-                return session.Query<Hero>().Where(x => x.Name == name).ToList();
+                return session.Query<Match>().Where(x => x.Duration <= duration).ToList();
             }
         }
 
-        public IEnumerable<Hero> GetHeroByClass(string heroClass)
+        public IEnumerable<Match> GetMatchByDate(DateTime date)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
-                return session.Query<Hero>().Where(x => x.HeroClass == heroClass).ToList();
+                return session.Query<Match>().Where(x => x.Date == date).ToList();
             }
         }
 
-        public IEnumerable<Hero> GetHeroByRole(string role)
+        public IEnumerable<Match> GetMatchByGameMode(string gameMode)
         {
             using (var session = NHibernateHelper.OpenSession())
             {
-                return session.Query<Hero>().Where(x => x.Role == role).ToList();
+                return session.Query<Match>().Where(x => x.GameMode == gameMode).ToList();
             }
         }
     }
