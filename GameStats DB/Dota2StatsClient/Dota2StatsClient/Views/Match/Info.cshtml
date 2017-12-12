@@ -1,0 +1,62 @@
+﻿@model PagedList.IPagedList<Dota2StatsClient.Models.MatchHistory>
+@using Dota2StatsClient.Models
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Info";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Info</h2>
+
+<div>
+    <h4>MatchHistory</h4>
+    <hr />
+    <table class="table table-hover table-striped table-bordered table-condensed">
+        <tr>
+            <th>
+                MATCH ID
+            </th>
+            <th>
+                DATE
+            </th>
+            <th>
+                DURATION
+            </th>
+            <th>
+                GAME MODE
+            </th>
+            <th>
+                PLAYERS
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MatchId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Duration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GameMode)
+                </td>
+                <td>
+                    @foreach (var p in item.Players)
+                    {
+                        @Html.ActionLink(@p.Nickname, "History" + "/" +@p.PlayerId, "Player") @:&nbsp;
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

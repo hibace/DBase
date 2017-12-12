@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Dota2StatsClient.Models.PlayerHistory>
+
+@{
+    ViewBag.Title = "Player match history";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Player's match history</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.MatchId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GameMode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Duration)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Hero)
+        </th>
+        <th>Action</th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MatchId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GameMode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Duration)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hero)
+            </td>
+            <td>
+                @Html.ActionLink("Info", "Info" + "/" + item.MatchId, "Match")
+            </td>
+        </tr>
+    }
+
+</table>
+
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>
+

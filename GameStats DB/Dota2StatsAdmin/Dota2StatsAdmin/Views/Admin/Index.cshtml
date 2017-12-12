@@ -1,0 +1,20 @@
+﻿@model Dota2StatsAdmin.ViewModel.Admin.IndexModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="pageData" data-tables="@Model.Tables"></div>
+<div id="values"></div>
+<script>
+    $(function () {
+        var $pageData = $('#pageData');
+        var pageData = $pageData.data();
+        var tables = pageData.tables;
+        var values = $('#values');
+        var html = '';
+        for (var i = 0; i < tables.length; i++) {
+            html += '<p><a href="/Admin/Table?model=' + tables[i] + '">' + tables[i] + '</a></p>';
+        }
+        values.html(html);
+    });
+</script>

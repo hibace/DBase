@@ -1,0 +1,112 @@
+﻿@{
+    ViewBag.Title = "Table";
+}
+<div id="pageData" data-columns="@Model.Columns" data-title="@Model.Title"></div>
+<div id="modelName"></div>
+<div id="modelTable"></div>
+<div>
+    <div>
+        <select id="actions">
+            <option value="nothing"></option>
+            <option value="add">add</option>
+            <option value="edit">edit</option>
+            <option value="delete">delete</option>
+        </select>
+    </div>
+    <div id="fields"></div>
+</div>
+<script type="text/javascript" src="~/Content/Scripts/api.js"></script>
+<script>
+    $(function () {
+        var $pageData = $('#pageData');
+        var pageData = $pageData.data();
+        var columns = pageData.columns;
+        var $title = pageData.title;
+        var $modelName = $('#modelName');
+        $modelName.html('<p>' + $title + '</p>');
+        var $modelTable = $('#modelTable');
+        var html = '<table class="table table-bordered"><tr>';
+        for (var i = 0; i < columns.length; i++) {
+            html += '<th>' + columns[i] + '</th>';
+        }
+        html += '</tr>';
+        getAll($title).done(function (items) {
+            for (var i = 0; i < items.length; i++) {
+                html += '<tr>';
+                for (var j = 0; j < columns.length; j++) {
+                    html += "<td>" + items[i][columns[j]] + "</td>";
+                }
+                html += '</tr>';
+            }
+            html += "</table>";
+            $modelTable.html(html);
+        });
+
+
+        var $actions = $('#actions');
+        $actions.bind('change focus', function () {
+            $('#fields').html('');
+            var val = $actions.val();
+            switch (val) {
+                case 'add':
+                    var html = '';
+                    for (var i = 0; i < columns.length; i++) {
+                        if (columns[i] != 'Id') {
+                            html += '<p>' + columns[i] + ':' + '<input type="text" id="' + columns[i] + '"></p>';
+                        }
+                    }
+                    html += '<button onclick="addClick(); location.reload()">add</button>';
+                    $('#fields').html(html);
+                    break;
+                case 'edit':
+                    var html = '';
+                    for (var i = 0; i < columns.length; i++) {
+                        html += '<p>' + columns[i] + ':' + '<input type="text" id="' + columns[i] + '"></p>';
+                    }
+                    html += '<button onclick="editClick(); location.reload()">edit</button>';
+                    $('#fields').html(html);
+                    break;
+                case 'delete':
+                    var html = '<p>id:<input type="text" id="Id"></p>';
+                    html += '<button onclick="deleteClick(); location.reload()">delete</button>';
+                    $('#fields').html(html);
+                    break;
+            }
+        });
+    });
+    function deleteClick() {
+        var $pageData = $('#pageData');
+        var pageData = $pageData.data();
+        var $title = $('#pageData').data().title;
+        var id = $('#Id').val();
+        remove($title, id);
+    }
+    function addClick() {
+        var $pageData = $('#pageData');
+        var pageData = $pageData.data();
+        var $title = $('#pageData').data().title;
+        var item = {};
+        var columns = pageData.columns;
+        for (var i = 0; i < columns.length; i++) {
+            if (columns[i] != 'Id') {
+                item[columns[i]] = $('#' + columns[i]).val();
+            }
+        }
+        add($title, item);
+    }
+    function editClick() {
+        var $pageData = $('#pageData');
+        var pageData = $pageData.data();
+        var $title = $('#pageData').data().title;
+        var item = {};
+        var id = $('#Id').val();
+        var columns = pageData.columns;
+        for (var i = 0; i < columns.length; i++) {
+            if (columns[i] != 'Id') {
+                item[columns[i]] = $('#' + columns[i]).val();
+            }
+        }
+        edit($title, id, item);
+    }
+</script>
+

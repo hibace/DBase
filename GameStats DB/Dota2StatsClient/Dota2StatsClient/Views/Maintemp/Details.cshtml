@@ -1,0 +1,42 @@
+﻿@model Dota2StatsClient.Models.Maintemp
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Match info</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdPLayer)
+        </dt>
+        
+        <dd>
+            @Html.ActionLink(@Html.DisplayFor(model => model.IdPLayer).ToString(), "Details" + "/" + @Html.DisplayFor(model => model.IdPLayer), "Player")
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdHero)
+        </dt>
+
+        <dd>
+            @Html.ActionLink(@Html.DisplayFor(model => model.IdHero).ToString(), "Details" + "/" + @Html.DisplayFor(model => model.IdHero), "Hero")
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdMatch)
+        </dt>
+
+        <dd>
+            @Html.ActionLink(@Html.DisplayFor(model => model.IdMatch).ToString(), "Details" + "/" + @Html.DisplayFor(model => model.IdMatch), "Match")
+        </dd>
+
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

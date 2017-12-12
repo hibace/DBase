@@ -1,0 +1,11 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Filters</h2>
+
+<p>@Html.ActionLink("Players' matches history", "History", "Player")</p>
+<p>@Html.ActionLink("Popular heroes by player", "HeroPercent", "Player")</p>
+<p>@Html.ActionLink("Last month matches", "Index", "Match")</p>

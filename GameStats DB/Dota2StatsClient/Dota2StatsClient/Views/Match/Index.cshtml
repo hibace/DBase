@@ -1,0 +1,71 @@
+﻿@model PagedList.IPagedList<Dota2StatsClient.Models.MatchHistory>
+@using Dota2StatsClient.Models
+@using PagedList.Mvc;
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="form-horizontal">
+    <hr /> 
+    <h2>Matches</h2>
+    <div class="form-group">
+
+        <table class="table table-hover table-striped table-bordered table-condensed">
+            <tr>
+                <th>
+                    MATCH ID
+                </th>
+                <th>
+                    DATE
+                </th>
+                <th>
+                    DURATION
+                </th>
+                <th>
+                    GAME MODE
+                </th>
+                <th>
+                    PLAYERS
+                </th>
+                <th>
+                    ACTION
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MatchId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Duration)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GameMode)
+                    </td>
+                    <td>
+                        @foreach (var p in item.Players)
+                        {
+                            @Html.ActionLink(@p.Nickname, "History" + "/" + @p.PlayerId, "Player") @:&nbsp;
+                        }
+                    </td>
+                    <td>
+                        @Html.ActionLink("Info", "Info", new { id = item.MatchId })
+                    </td>
+                    </tr>
+            }
+
+        </table>
+        <br />
+        Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    </div>
+</div>  

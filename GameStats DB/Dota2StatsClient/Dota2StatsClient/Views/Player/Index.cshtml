@@ -1,0 +1,51 @@
+﻿@model PagedList.IPagedList <Dota2StatsClient.Models.Player>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<br />
+  
+<div class="form-horizontal">  
+  
+    <hr />  
+    <h2>Players</h2>
+    <div class="form-group">  
+  
+
+        <table class="table table-hover table-striped table-bordered table-condensed">  
+            <tr>  
+                <th>  
+                    Nickname
+                </th>  
+                @*<th>
+                   Number of Games
+                </th>*@ 
+                <th>
+                    Action
+                </th> 
+            </tr>  
+  
+            @foreach (var item in Model)
+            {
+                <tr>  
+                    <td>  
+                        @Html.DisplayFor(modelItem => item.Nickname)  
+                    </td>  
+                    @*<td>  
+                        @Html.DisplayFor(modelItem => item.NumberOfGames)  
+                    </td>*@  
+                    <td>  
+                        @Html.ActionLink("History", "History", new { id=item.Id }) |
+                        @Html.ActionLink("Hero pick info", "HeroPercent", new { id = item.Id })
+                        
+                    </td>
+                </tr>  
+            }  
+  
+        </table>  
+        
+        
+        <br />
+        Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    </div>  
+</div>  

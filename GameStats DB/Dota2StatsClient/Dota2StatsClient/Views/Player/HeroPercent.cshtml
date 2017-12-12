@@ -1,0 +1,63 @@
+﻿@model PagedList.IPagedList<Dota2StatsClient.Models.HeroPercent>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<br />
+@{
+    ViewBag.Title = "HeroPercent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>HeroPercent</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            Player ID
+        </th>
+        <th>
+            Nickname
+        </th>
+        <th>
+            Hero ID
+        </th>
+        <th>
+            Hero
+        </th>
+        <th>
+            PlayedGamesOnThisHero
+        </th>
+        <th>
+            PickPercent
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlayerId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nickname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HeroId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Hero)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlayedGamesOnThisHero)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PickPercent)
+        </td>
+        
+    </tr>
+}
+
+</table>
+<br />
+Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("HeroPercent", new { page }))
